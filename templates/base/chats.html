@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Custom styles for this template -->
+    {% load staticfiles %}
+    <title>Coprovis</title>
+    <link rel="icon" href="{% static 'css/base/images/favicon.ico' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/base/index.css' %}">
+
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+
+    <!--Paginación-->
+    <script>
+        $(document).ready(function() {
+            $("#li_chat").attr('class', 'active');
+        });
+    </script>
+
+    <!--Google Fonts-->
+    <!--<link href='https://fonts.googleapis.com/css?family=Abril+Fatface' rel='stylesheet' type='text/css'>-->
+    <link href='https://fonts.googleapis.com/css?family=Old+Standard+TT:700' rel='stylesheet' type='text/css'>
+
+</head>
+
+<body>
+    <div class="container">
+        {% include "base/navbar.html" %}
+
+        <div class="jumbotron">
+            <h1 style="font-family: 'Old Standard TT', serif;">Chats</h1>
+        </div>
+
+        <div class="container-fluid">
+            <div class="table-responsive">
+                <table class="table table-condensed table-hover">
+                    <thead>
+                        <tr>
+                            <th style="text-align: center;">N°</th>
+                            <th style="text-align: center;">Audio</th>
+                            <th style="text-align: center;">Tema</th>
+                            <th style="text-align: center;">Desarrollador</th>
+                            <th style="text-align: center;">Fecha</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for i in audios %}
+                            {% if forloop.counter|divisibleby:2 %}
+                                <tr class="success">
+                            {% else %}
+                                <tr>
+                            {% endif %}
+                                    <td style="text-align: center; vertical-align: middle;">{{ i.0 }}</td>
+                                    <td style="text-align: center; vertical-align: middle;">
+                                        <audio controls preload="none">
+                                            <!--<source src="{% static 'chats/'|add:i.3|add:'.mp3' %}" type="audio/mpeg">-->
+                                            <source src="{{ i.5 }}">
+                                            No audio
+                                        </audio>
+                                    </td>
+                                    <td style="vertical-align: middle;">{{ i.1 }}</td>
+                                    <td style="text-align: center; vertical-align: middle;">{{ i.2 }}</td>
+                                    <td style="text-align: center; vertical-align: middle;">{{ i.4 }}</td>
+                                </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        {% include "base/footer.html" %}
+
+    </div>
+</body>
+</html>

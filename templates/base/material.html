@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Custom styles for this template -->
+    {% load staticfiles %}
+    <title>Coprovis</title>
+    <link rel="icon" href="{% static 'css/base/images/favicon.ico' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/base/index.css' %}">
+
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+
+    <!--Paginación-->
+    <script>
+        $(document).ready(function() {
+            $("#li_mat").attr('class', 'active');
+        });
+    </script>
+
+    <!--Google Fonts-->
+    <!--<link href='https://fonts.googleapis.com/css?family=Abril+Fatface' rel='stylesheet' type='text/css'>-->
+    <link href='https://fonts.googleapis.com/css?family=Old+Standard+TT:700' rel='stylesheet' type='text/css'>
+</head>
+
+<body>
+    <div class="container">
+        {% include "base/navbar.html" %}
+
+        <div class="container-fluid">
+            <ul class="nav nav-tabs">
+                <li><a href="#plan" data-toggle="tab">Plan</a></li>
+                <li><a href="#recetas" data-toggle="tab">Recetas</a></li>
+                <li  class="active"><a href="#puntajes" data-toggle="tab">Puntajes</a></li>
+                <li><a href="#botiquin" data-toggle="tab">Botiquín</a></li>
+            </ul>
+        </div>
+
+        <div class="container-fluid">
+            <div class="tab-content">
+
+                <div class="tab-pane fade" id="plan">
+                    <div class="jumbotron">
+                        <h1 style="font-family: 'Old Standard TT', serif;">Próximamente Detalles del Plan</h1>
+                    </div>
+                </div>
+
+                <div class="tab-pane fade" id="recetas">
+                    <div class="jumbotron">
+                        <h1 style="font-family: 'Old Standard TT', serif;">Próximamente Recetas Saludables</h1>
+                    </div>
+                </div>
+
+                <div class="tab-pane fade in active" id="puntajes">
+                    <div class="jumbotron">
+                        <h1 style="font-family: 'Old Standard TT', serif;">Puntaje de Alimentos</h1>
+                    </div>
+
+                    <div class="container-fluid">
+                        <div class="table-responsive">
+                            <table class="table table-condensed table-hover">
+                                <thead>
+                                    <tr>
+                                        <th style="text-align: center;">N°</th>
+                                        <th style="text-align: center;">Alimento</th>
+                                        <th style="text-align: center;">Cantidad</th>
+                                        <th style="text-align: center;">Medida</th>
+                                        <th style="text-align: center;">Puntaje</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for i in puntajes %}
+                                        {% if forloop.counter|divisibleby:2 %}
+                                            <tr class="success">
+                                        {% else %}
+                                            <tr>
+                                        {% endif %}
+                                                <td style="text-align: center;">{{ i.0 }}</td>
+                                                <td>{{ i.1 }}</td>
+                                                <td style="text-align: center;">{{ i.2 }}</td>
+                                                <td>{{ i.3 }}</td>
+                                                <td style="text-align: center;">{{ i.4 }}</td>
+                                            </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="tab-pane fade" id="botiquin">
+                    <div class="jumbotron">
+                        <h1 style="font-family: 'Old Standard TT', serif;">Botiquín de Emergencia</h1>
+                        <p class="lead">El botiquín de emergencia está compuesto por alimentos cuyo puntaje es nulo,
+                            es por ello que son de libre consumo. Haga uso de él las veces que sean necesarias,
+                            cuando sienta hambre.</p>
+                    </div>
+
+                    <div class="container-fluid">
+                        <div class="table-responsive">
+                            <table class="table table-condensed table-hover">
+                                <thead>
+                                    <tr>
+                                        <th style="text-align: center;">N°</th>
+                                        <th style="text-align: center;">Alimento</th>
+                                        <th style="text-align: center;">Cantidad</th>
+                                        <th style="text-align: center;">Medida</th>
+                                        <th style="text-align: center;">Puntaje</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for i in botiquin %}
+                                        {% if forloop.counter|divisibleby:2 %}
+                                            <tr class="success">
+                                        {% else %}
+                                            <tr>
+                                        {% endif %}
+                                                <td style="text-align: center;">{{ i.0 }}</td>
+                                                <td>{{ i.1 }}</td>
+                                                <td style="text-align: center;">{{ i.2 }}</td>
+                                                <td>{{ i.3 }}</td>
+                                                <td style="text-align: center;">{{ i.4 }}</td>
+                                            </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+
+        {% include "base/footer.html" %}
+
+    </div>
+</body>
+</html>

@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Custom styles for this template -->
+    {% load staticfiles %}
+    <title>Coprovis</title>
+    <link rel="icon" href="{% static 'css/base/images/favicon.ico' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/base/index.css' %}">
+    {% load crispy_forms_tags %}
+
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+
+    <!-- Google Charts-->
+    <!--Load AJAX Api-->
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+        google.charts.load('current', {'packages':['corechart', 'gauge']});
+        google.charts.setOnLoadCallback(drawChart);
+
+        function drawChart(){
+            var d_imc = google.visualization.arrayToDataTable({{ d_imc|safe }});
+            var d_icc = google.visualization.arrayToDataTable({{ d_icc|safe }});
+            var d_peso = google.visualization.arrayToDataTable({{ d_peso|safe }});
+            var d_perimetro = google.visualization.arrayToDataTable({{ d_perimetro|safe }});
+
+            var o_imc = {{ o_imc|safe }};
+            var o_icc = {{ o_icc|safe }};
+            var o_peso = {{ o_peso|safe }};
+            var o_perimetro = {{ o_perimetro|safe }};
+
+            var c_imc = new google.visualization.Gauge(document.getElementById('div_imc'));
+            var c_icc = new google.visualization.Gauge(document.getElementById('div_icc'));
+            var c_peso = new google.visualization.AreaChart(document.getElementById('div_peso'));
+            var c_perimetro = new google.visualization.AreaChart(document.getElementById('div_perimetro'));
+
+            c_imc.draw(d_imc, o_imc);
+            c_icc.draw(d_icc, o_icc);
+            c_peso.draw(d_peso, o_peso);
+            c_perimetro.draw(d_perimetro, o_perimetro);
+        }
+
+        $(window).resize(function(){
+            drawChart();
+        });
+    </script>
+
+    {% if  flag != 0 %}
+        <script>
+            $(document).ready(function() {
+//                Carga último tab
+                $("a[href='{{ ilink }}']").tab('show');
+//                Dispara modales
+                $("#infoModal").modal('show');
+            });
+        </script>
+    {% endif %}
+
+    <script>
+        $(document).ready(function() {
+//            Paginación
+            $("#li_des").attr('class', 'active');
+            $(".nav-tabs a").on('shown.bs.tab', function(){
+               drawChart();
+            });
+        });
+    </script>
+
+</head>
+
+<body>
+    <div class="container">
+        {% include "base/navbar.html" %}
+
+        {% include "base/curva.html" %}
+
+        {% include "base/footer.html" %}
+
+    </div>
+
+</body>
+</html>

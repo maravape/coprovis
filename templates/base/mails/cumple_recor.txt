@@ -1,0 +1,11 @@
+Recordatorio de cumpleaños
+
+Te recordamos que las siguientes personas están cumpliendo años este día ({{ hoy }}), no te olvides de felicitarlos:
+
+{% for cumple in cumples %}
+    {{ forloop.counter }} - {{ cumple.0 }} {{ cumple.1 }} - Usuario activo? {{ cumple.2 }}
+{% endfor %}
+
+Saludos,
+
+Equipo Coprovis.

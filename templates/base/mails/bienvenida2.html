@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <style media="all" type="text/css">
+        #encabezado {
+            color: red;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1 id="encabezado"><strong>{{ nombre }}</strong>, {% if sexo == 'F' %}bienvenida{% else %}bienvenido{% endif %} a Coprovis!</h1>
+
+        <p>Nos sentimos realmente entusiasmados porque has tomado la decisión de ocuparte de tu salud y de compartirla con tus personas más cercanas!</p>
+
+        <p>Este mail contiene información importante acerca de tu cuenta en <strong><a href="http://www.coprovis.com.ar">Coprovis</a></strong></p>
+
+        <div class="swell">
+            <p>Usuario: <storng>{{ usuario }}</storng></p>
+            <p>Clave: genera tu clave de acceso <a href="http://www.coprovis.com.ar/mi_admin/password_reset/">aquí</a></p>
+        </div>
+
+        <p>Una vez generada tu clave de acceso podrás ingresar a tu cuenta en www.coprovis.com.ar</p>
+
+        <p>Te deseamos muchos éxitos.</p>
+        <p>El Equipo Coprovis.</p>
+    </div>
+</body>
+</html>

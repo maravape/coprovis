@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Custom styles for this template -->
+    {% load staticfiles %}
+    <title>Coprovis</title>
+    <link rel="icon" href="{% static 'css/base/images/favicon.ico' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/base/index.css' %}">
+    {% load crispy_forms_tags %}
+
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+
+    <!--Paginación-->
+    <script>
+        $(document).ready(function() {
+            $("#li_acc").attr('class', 'active');
+        });
+    </script>
+
+    <!--Google Fonts-->
+    <!--<link href='https://fonts.googleapis.com/css?family=Abril+Fatface' rel='stylesheet' type='text/css'>-->
+    <link href='https://fonts.googleapis.com/css?family=Old+Standard+TT:700' rel='stylesheet' type='text/css'>
+
+    <!--Mensajes-->
+    {% if  messages %}
+        <script>
+            $(document).ready(function() {
+                $("#psw_modal").modal('show');
+            });
+        </script>
+    {% endif %}
+
+</head>
+
+<body>
+    <div class="container">
+        {% include "base/navbar.html" %}
+
+        <div class="modal fade" id="psw_modal" role="dialog">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-body">
+                        {% for message in messages %}
+                            {% if message.tags == "error" %}
+                                <div class="alert alert-danger fade in">
+                                    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                                    <strong>{{ message }}</strong>
+                                </div>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="container-fluid">
+            <div class="col-xs-12 well">
+                <h1 style="font-family: 'Old Standard TT', serif;">Datos de la Cuenta</h1>
+                {% crispy f_cuenta %}
+            </div>
+        </div>
+
+        <div class="container-fluid">
+            <div class="col-xs-12 well">
+                <h1 style="font-family: 'Old Standard TT', serif;">Cambio de Password</h1>
+                {% crispy f_psw %}
+            </div>
+        </div>
+
+        {% include "base/footer.html" %}
+
+    </div>
+</body>
+</html>

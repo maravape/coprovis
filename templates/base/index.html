@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Custom styles for this template -->
+    {% load staticfiles %}
+    <title>Coprovis</title>
+    <link rel="icon" href="{% static 'css/base/images/favicon.ico' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/base/index.css' %}">
+
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+
+    <!--Paginación-->
+    <script>
+        $(document).ready(function () {
+            $("#li_ind").attr('class', 'active');
+        });
+    </script>
+
+    <!--Google Fonts-->
+    <link href='https://fonts.googleapis.com/css?family=Handlee' rel='stylesheet' type='text/css'>
+</head>
+
+<body>
+
+    <div class="container">
+
+        {% include "base/navbar.html" %}
+
+        <!-- Jumbotron -->
+        <div class="jumbotron">
+            <img class="img-responsive" src="{% static 'css/base/images/Coprovis.png' %}" alt="Coprovis" style="margin: auto;"/>
+            <p class="lead"><strong>Somos saludables! Somos Coprovis!!!</strong></p>
+            <p class="lead">Únete a nuestra comunidad y comienza con la vida saludable que mereces. Te ayudamos a dar ese primer paso.</p>
+            <p><a class="btn btn-lg btn-success" href="{% url 'base:contacto' %}" role="button">Da el primer paso hoy!</a></p>
+        </div>
+
+        <!--Frases-->
+        <div id="myCarousel" class="carousel slide" data-ride="carousel">
+            <!-- Indicadores -->
+            <ol class="carousel-indicators">
+                {% for i in frases %}
+                    {% if i.0 == "0" %}
+                        <li data-target="#myCarousel" data-slide-to={{ i.0 }} class="active"></li>
+                    {% else %}
+                        <li data-target="#myCarousel" data-slide-to={{ i.0 }}></li>
+                    {% endif %}
+                {% endfor %}
+            </ol>
+
+            <!-- Wrapper for slides -->
+            <div class="carousel-inner" role="listbox">
+                {% for i in frases %}
+                    {% if i.0 == "0" %}
+                        <div class="item active">
+                    {% else %}
+                        <div class="item">
+                    {% endif %}
+                            <div class="jumbotron" style="display: flex; align-items: center; height: 150px;"><h3 style="margin: auto; font-family: 'Handlee', cursive; color: #006076;">
+                                {{ i.1 }}
+                            </h3></div>
+                        </div>
+                {% endfor %}
+            </div>
+
+            <!-- Controles Left - right -->
+            <a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev">
+                <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+                <span class="sr-only">Anterior</span>
+            </a>
+            <a class="right carousel-control" href="#myCarousel" role="button" data-slide="next">
+                <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+                <span class="sr-only">Siguiente</span>
+            </a>
+        </div>
+
+        <!-- row of columns -->
+        <div class="row" style="padding-top: 20px;">
+            <div class="col-lg-4">
+                <h2>Misión</h2>
+                <p style="text-align: justify;">Ayudar al control de la obesidad bajo el concepto de enfermedad a través de la aprehensión de un programa
+                    de vida saludable que logra establecer hábitos alimenticios que sean sostenibles en el tiempo fomentando
+                    una cultura de prevención y cuidado integral de la persona.</p>
+                <!--<p><a class="btn btn-primary" href="#" role="button">View details &raquo;</a></p>-->
+            </div>
+            <div class="col-lg-4">
+                <h2>Visión</h2>
+                <p style="text-align: justify;">Ser reconocidos como la comunidad más efectiva en la guía y acompañamiento durante el desarrollo de un
+                    programa integral que impacte positivamente en la calidad de vida de sus miembros.</p>
+                <!--<p><a class="btn btn-primary" href="#" role="button">View details &raquo;</a></p>-->
+            </div>
+            <div class="col-lg-4">
+                <h2>Valores</h2>
+                <p style="text-align: justify;">Integridad, compromiso, empatía, trabajo en equipo, solidaridad, perseverancia, ética.</p>
+                <!--<p><a class="btn btn-primary" href="#" role="button">View details &raquo;</a></p>-->
+            </div>
+        </div>
+
+        {% include "base/footer.html" %}
+
+    </div> <!-- /container -->
+
+</body>
+</html>

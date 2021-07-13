@@ -1,0 +1,15 @@
+{{ nombre }}, {% if sexo == 'F' %}bienvenida{% else %}bienvenido{% endif %} a Coprovis!
+
+Nos sentimos realmente entusiasmados porque has tomado la decisión de ocuparte de tu salud y de compartirla con las personas que más amas!
+
+Queremos invitarte a que generes una clave de acceso para ingresar a tu cuenta en www.coprovis.com.ar
+
+Con tu cuenta en Coprovis podrás acceder a tu plan nutricional y monitorear tu proceso de descenso de peso. También dispondrás de material multimedia que te motivará a seguir cuidando de lo más importante que es tu salud!
+
+Nada más completa el proceso visitando el enlace que aparece a continuación donde será solicitado tu E-Mail.
+
+http://www.coprovis.com.ar/admin/password_reset/
+
+Te deseamos muchos éxitos.
+
+Equipo Coprovis.

@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Custom styles for this template -->
+    {% load staticfiles %}
+    <title>Coprovis</title>
+    <link rel="icon" href="{% static 'css/base/images/favicon.ico' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/base/index.css' %}">
+
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+
+    <!-- Google Charts-->
+    <!--Load AJAX Api-->
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+    <script type="text/javascript">
+        google.charts.load('current', {'packages':['geochart']});
+        google.charts.setOnLoadCallback(drawRegionsMap);
+
+        function drawRegionsMap(){
+            var data = new google.visualization.DataTable();
+            data.addColumn('string', 'Pais');
+            data.addColumn('number', 'Miembros');
+            data.addColumn({type: 'string', role: 'tooltip'});
+            data.addRows([
+                ['Argentina', 1, ''],
+                ['Guatemala', 1, ''],
+                ['Nicaragua', 2, ''],
+                ['El Salvador', 8, ''],
+                ['United States', 3, '']
+            ]);
+
+            var options = {
+//                region: '019',
+                legend: 'none',
+                colorAxis: {colors: ['#006076', '#006076']},
+                defaultColor: '#006076',
+                backgroundColor: 'white',
+                datalessRegionColor: '#eaeaea',
+            };
+
+            var chart = new google.visualization.GeoChart(document.getElementById('chart_div'));
+            chart.draw(data, options);
+        }
+
+        $(window).resize(function(){
+            drawRegionsMap();
+        });
+    </script>
+
+    <!--Paginación-->
+    <script>
+        $(document).ready(function() {
+            $("#li_com").attr('class', 'active');
+        });
+    </script>
+
+    <!--Google Fonts-->
+    <!--<link href='https://fonts.googleapis.com/css?family=Abril+Fatface' rel='stylesheet' type='text/css'>-->
+    <link href='https://fonts.googleapis.com/css?family=Old+Standard+TT:700' rel='stylesheet' type='text/css'>
+</head>
+
+<body>
+    <div class="container">
+        {% include "base/navbar.html" %}
+
+        <div class="jumbotron">
+            <h1 style="font-family: 'Old Standard TT', serif;">La Comunidad y sus miembros</h1>
+            <!--<h1 style="font-family: 'Abril Fatface', cursive;">Decisión &#187; Convicción &#187; Resultados</h1>-->
+            <!--<h1 style="font-family: 'Old Standard TT', serif;">Decisión &#187; Convicción &#187; Resultados</h1>-->
+        </div>
+
+        <div id="chart_div" class="container" style="width: 100%; height: 400px;;"></div>
+
+        {% include "base/footer.html" %}
+
+    </div>
+</body>
+</html>

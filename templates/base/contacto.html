@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Custom styles for this template -->
+    {% load staticfiles %}
+    <title>Coprovis</title>
+    <link rel="icon" href="{% static 'css/base/images/favicon.ico' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/base/index.css' %}">
+
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+
+    <!--Paginación-->
+    <script>
+        $(document).ready(function() {
+            $("#li_con").attr('class', 'active');
+        });
+    </script>
+
+    {% load crispy_forms_tags %}
+
+    <!--modals-->
+    {% if  flag != 0 %}
+        <script>
+            $(document).ready(function() {
+                $("#infoModal").modal('show');
+            });
+        </script>
+    {% endif %}
+
+</head>
+
+<body>
+    <div class="container">
+        {% include "base/navbar.html" %}
+
+        <div class="container-fluid">
+            <div class="col-xs-12 well">
+                <span style="color: #006076; font-size: x-large;">Formulario de Contacto</span>
+                <hr style="border-color: #006076; background-color:#006076">
+                {% crispy forma2 %}
+            </div>
+        </div>
+
+        <div class="modal fade" id="infoModal" role="dialog">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-body">
+                        {% if flag == 1 %}
+                            <div class="alert alert-success fade in">
+                                <strong>{{ info }}</strong>
+                            </div>
+                        {% elif flag == 2 %}
+                            <div class="alert alert-info fade in">
+                                <strong>{{ info }}</strong>
+                            </div>
+                        {% elif flag == 3 %}
+                            <div class="alert alert-warning fade in">
+                                <strong>{{ info }}</strong>
+                            </div>
+                        {% elif flag == 4 %}
+                            <div class="alert alert-danger fade in">
+                                <strong>{{ info }}</strong>
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        {% include "base/footer.html" %}
+
+    </div>
+</body>
+</html>

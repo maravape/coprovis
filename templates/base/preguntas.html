@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Custom styles for this template -->
+    {% load staticfiles %}
+    <title>Coprovis</title>
+    <link rel="icon" href="{% static 'css/base/images/favicon.ico' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/base/index.css' %}">
+
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+
+    <!--Paginación-->
+    <script>
+        $(document).ready(function() {
+            $("#li_ask").attr('class', 'active');
+        });
+    </script>
+
+    <!--Google Fonts-->
+    <!--<link href='https://fonts.googleapis.com/css?family=Abril+Fatface' rel='stylesheet' type='text/css'>-->
+    <link href='https://fonts.googleapis.com/css?family=Old+Standard+TT:700' rel='stylesheet' type='text/css'>
+</head>
+
+<body>
+    <div class="container">
+        {% include "base/navbar.html" %}
+
+        <div class="jumbotron">
+            <h1 style="font-family: 'Old Standard TT', serif;">Preguntas frecuentes</h1>
+        </div>
+
+        <div class="container-fluid">
+
+            <div class="panel-group" id="accordion">
+                {% for i in faq %}
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h4 class="panel-title">
+                                <a data-toggle="collapse" data-parent="#accordion" href="{{ '#'|add:i.0 }}">{{ i.1 }}</a>
+                            </h4>
+                        </div>
+                        <div id="{{ i.0 }}" class="panel-collapse collapse">
+                            <div class="panel-body" style="text-align: justify;">{{ i.2 }}</div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+
+        </div>
+
+        {% include "base/footer.html" %}
+
+    </div>
+</body>
+</html>

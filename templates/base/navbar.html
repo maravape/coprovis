@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    {% load staticfiles %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/base/index.css' %}">
+    {% load crispy_forms_tags %}
+
+    <!--Mensajes-->
+    {% if  messages %}
+        <script>
+            $(document).ready(function() {
+                $("#myModal").modal('show');
+            });
+        </script>
+    {% endif %}
+
+    <!--Google Fonts-->
+    <link href='https://fonts.googleapis.com/css?family=Lobster' rel='stylesheet' type='text/css'>
+
+    <!-- Piwik -->
+    <script type="text/javascript">
+        var _paq = _paq || [];
+        _paq.push(['trackPageView']);
+        _paq.push(['enableLinkTracking']);
+        (function() {
+            var u="//piwik-peluchesoft.rhcloud.com/";
+            _paq.push(['setTrackerUrl', u+'piwik.php']);
+            _paq.push(['setSiteId', 1]);
+            var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+            g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s);
+        })();
+    </script>
+    <noscript><p><img src="//piwik-peluchesoft.rhcloud.com/piwik.php?idsite=1" style="border:0;" alt="" /></p></noscript>
+    <!-- End Piwik Code -->
+
+</head>
+
+<body>
+    <div class="masthead">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-xs-3">
+                    <a href="{% url 'base:index' %}"><img class="img-responsive" src="{% static 'css/base/images/Coprovis.png' %}" alt="Coprovis" id="brand" style="max-width: 100px;"/></a>
+                </div>
+                <div class="col-xs-9">
+                    <h3 class="text-muted pull-right" style="font-family: 'Lobster', cursive;">
+                        <span class="glyphicon glyphicon-user"></span>
+                        {% if user.is_authenticated %}
+                            {{ request.user.first_name }}
+                        {% else %}
+                            Invitado
+                        {% endif %}
+                        <button type="button" class=" btn btn-xs btn-primary" data-toggle="collapse" data-target="#myNavbar" id="menu-btn">
+                            <span class="glyphicon glyphicon-menu-hamburger"></span>
+                        </button>
+                    </h3>
+                </div>
+            </div>
+        </div>
+
+        <nav class="navbar">
+            <div class="collapse navbar-collapse" id="myNavbar">
+                <ul class="nav nav-justified">
+                    {% if user.is_authenticated %}
+                        <li id="li_mat"><a href="{% url 'base:material' %}">Material</a></li>
+                        <li id="li_des"><a href="{% url 'base:descenso' %}">Descenso</a></li>
+                        <li id="li_chat"><a href="{% url 'base:chats' %}">Chats</a></li>
+                        <li id="li_acc"><a href="{% url 'base:cuenta' %}">Cuenta</a></li>
+                        {% if user.is_staff %}
+                            <li id="li_adm"><a href="{% url 'base:control' %}">Admin</a></li>
+                        {% endif %}
+                        <li id="li_lout"><a class="a_last" href="{% url 'base:logout' %}">Salir</a></li>
+                    {% else %}
+                        <li id="li_ind"><a href="{% url 'base:index' %}">Inicio</a></li>
+                        <li id="li_com"><a href="{% url 'base:comunidad' %}">Comunidad</a></li>
+                        <li id="li_res"><a href="{% url 'base:resultados' %}">Resultados</a></li>
+                        <li id="li_con"><a href="{% url 'base:contacto' %}">Contacto</a></li>
+                        <li id="li_ask"><a href="{% url 'base:preguntas' %}">Preguntas</a></li>
+                        <li id="li_lin"><a class="a_last" data-toggle="modal" href="#myModal">Ingresar</a></li>
+
+                        <div class="modal fade" id="myModal" role="dialog">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                        <h4 class="modal-title">Ingresar como</h4>
+                                    </div>
+                                    <div class="modal-body">
+
+                                        {% if  messages %}
+                                            {% for message in messages %}
+                                                {% if message.tags == "error" %}
+                                                    <div class="alert alert-danger fade in">
+                                                        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                                                        <strong>{{ message }}</strong>
+                                                    </div>
+                                                {% endif %}
+                                            {% endfor %}
+                                        {% endif %}
+
+                                        {% crispy forma %}
+                                    </div>
+
+                                    <div class="modal-footer">
+                                        <div class="pull-left"><a href="{% url 'admin_password_reset' %}">Restablecer Password</a></div>
+                                        <button type="button" class="btn btn-success" data-dismiss="modal">Cerrar</button>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+
+                    {% endif %}
+                </ul>
+            </div>
+        </nav>
+
+    </div>
+</body>
+</html>

@@ -1,0 +1,1 @@
+web: gunicorn her_copro.wsgi

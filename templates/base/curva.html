@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <!-- Custom styles for this template -->
+    <!--{% load staticfiles %}-->
+    {% load crispy_forms_tags %}
+
+</head>
+
+<body>
+    <!--Modales-->
+    <div class="modal fade" id="infoModal" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-body">
+                    {% if flag == 1 %}
+                        <div class="alert alert-success fade in">
+                            <strong>{{ info }}</strong>
+                        </div>
+                    {% elif flag == 2 %}
+                        <div class="alert alert-info fade in">
+                            <strong>{{ info }}</strong>
+                        </div>
+                    {% elif flag == 3 %}
+                        <div class="alert alert-warning fade in">
+                            <strong>{{ info }}</strong>
+                        </div>
+                    {% elif flag == 4 %}
+                        <div class="alert alert-danger fade in">
+                            <strong>{{ info }}</strong>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container-fluid">
+        <ul class="nav nav-tabs">
+            <li class="active"><a href="#resumen" data-toggle="tab">Resumen</a></li>
+            <li><a href="#peso" data-toggle="tab">Curva de peso</a></li>
+            <li><a href="#perimetro" data-toggle="tab">Cintura y cadera</a></li>
+        </ul>
+    </div>
+
+    <div class="container-fluid">
+        <div class="tab-content">
+
+            <div class="tab-pane fade in active" id="resumen">
+
+                <div class="container-fluid">
+                    <h1 style="font-family: 'Old Standard TT', serif;">Datos Personales</h1>
+                    <div class="table-responsive">
+                        <table class="table table-condensed table-hover">
+                            <tbody>
+                                {% for i in personal %}
+                                    {% if forloop.counter|divisibleby:2 %}
+                                        <tr class="info">
+                                    {% else %}
+                                        <tr>
+                                    {% endif %}
+                                            <td class="col-xs-6">{{ i.0 }}</td>
+                                            <td class="col-xs-6">{{ i.1 }}</td>
+                                        </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="container-fluid">
+                    <h1 style="font-family: 'Old Standard TT', serif;">Plan Nutricional</h1>
+                    <div class="table-responsive">
+                        <table class="table table-condensed table-hover">
+                            <tbody>
+                                {% for i in mi_plan %}
+                                    {% if forloop.counter|divisibleby:2 %}
+                                        <tr class="warning">
+                                    {% else %}
+                                        <tr>
+                                    {% endif %}
+                                            <td class="col-xs-6" style="vertical-align: middle;">{{ i.0 }}</td>
+                                            <td class="col-xs-3" style="vertical-align: middle;">{{ i.1 }}</td>
+                                            {% if i.0 == 'Puntos diarios:' and dia_tipo != 'Sin registro' %}
+                                                <td class="col xs-3" style="vertical-align: middle;">
+                                                    <button type="button" class="btn btn-warning pull-left" data-toggle="modal" data-target="#dtipo_info" style="display: block;margin: auto;">Distribución</button>
+                                                </td>
+                                            {% else %}
+                                                <td class="col xs-3" style="vertical-align: middle;"></td>
+                                            {% endif %}
+                                        </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Modal ICC Info -->
+                <div id="dtipo_info" class="modal fade">
+                    <div class="modal-dialog">
+
+                        <!-- Modal content-->
+                        <div class="modal-content">
+
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                <h4 class="modal-title" style="font-family: 'Old Standard TT', serif; text-align: center;">Distribución de puntos en un día tipo</h4>
+                            </div>
+
+                            <div class="modal-body">
+                                <div class="container-fluid">
+                                    <p style="text-align: justify;">De acuerdo a tu plan nutricional, te corresponde
+                                        comer <strong>{{ mi_plan.2.1 }} puntos</strong> al día.</p>
+                                    <p style="text-align: justify;">La tabla a continuación recomienda como debería ser la
+                                        distribución de tus puntos a lo largo del día. Las horas mostradas son
+                                        simplemente un ejemplo, lo importante es espaciar una comida de la otra
+                                        entre 1 hora y media a tres horas.</p>
+                                </div>
+
+                                <div class="container-fluid">
+                                    <div class="table-responsive">
+                                        <table class="table table-condensed table-hover">
+                                            <thead>
+                                                <tr>
+                                                    <th style="text-align: center;">N°</th>
+                                                    <th style="text-align: center;">Tiempo</th>
+                                                    <th style="text-align: center;">Hora</th>
+                                                    <th style="text-align: center;">Puntos</th>
+                                                    <th style="text-align: center;">%</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {% for i in dia_tipo %}
+                                                    {% if forloop.counter|divisibleby:2 %}
+                                                        <tr class="success">
+                                                    {% else %}
+                                                        <tr>
+                                                    {% endif %}
+                                                            <td style="text-align: center; vertical-align: middle;">{{ i.0 }}</td>
+                                                            <td style="text-align: center; vertical-align: middle;">{{ i.1 }}</td>
+                                                            <td style="text-align: center; vertical-align: middle;">{{ i.2 }}</td>
+                                                            <td style="text-align: center; vertical-align: middle;">{{ i.3 }}</td>
+                                                            <td style="text-align: center; vertical-align: middle;">{{ i.4 }}</td>
+                                                        </tr>
+                                                {% endfor %}
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-success" data-dismiss="modal">Cerrar</button>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="container-fluid">
+                    <h1 style="font-family: 'Old Standard TT', serif;">Resumen de Resultados</h1>
+                    <div class="table-responsive">
+                        <table class="table table-condensed table-hover">
+                            <tbody>
+                                {% for i in resumen %}
+                                    {% if forloop.counter|divisibleby:2 %}
+                                        <tr class="success">
+                                    {% else %}
+                                        <tr>
+                                    {% endif %}
+                                            <td class="col-xs-6" style="vertical-align: middle;">{{ i.0 }}</td>
+                                            <td class="col-xs-3" style="vertical-align: middle;">{{ i.1 }}</td>
+                                            {% if i.0 == 'IMC:' %}
+                                                <td class="col-xs-3" style="vertical-align: middle;">
+                                                    <button type="button" class="btn btn-success pull-left" data-toggle="modal" data-target="#imc_info">IMC?</button>
+                                                </td>
+                                            {% elif i.0 == 'ICC:' %}
+                                                <td class="col-xs-3" style="vertical-align: middle;">
+                                                    <button type="button" class="btn btn-success pull-left" data-toggle="modal" data-target="#icc_info">ICC?</button>
+                                                </td>
+                                            {% else %}
+                                                <td class="col-xs-3" style="vertical-align: middle;"></td>
+                                            {% endif %}
+                                        </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="container-fluid">
+                    <div class="col-xs-6">
+                        <div id="div_imc" style="display: block; margin: auto;"></div>
+                        <!--<button type="button" class="btn btn-success" data-toggle="modal" data-target="#imc_info" style="display: block;margin: auto;">IMC?</button>-->
+                    </div>
+                    <div class="col-xs-6">
+                        <div id="div_icc" style="display: block; margin: auto;"></div>
+                        <!--<button type="button" class="btn btn-success" data-toggle="modal" data-target="#icc_info" style="display: block;margin: auto;">ICC?</button>-->
+                    </div>
+                </div>
+
+                <!-- Modal IMC Info -->
+                <div id="imc_info" class="modal fade">
+                    <div class="modal-dialog modal-lg">
+
+                        <!-- Modal content-->
+                        <div class="modal-content">
+
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                <h4 class="modal-title" style="font-family: 'Old Standard TT', serif; text-align: center;">Índice de Masa Corporal (IMC)</h4>
+                            </div>
+
+                            <div class="modal-body">
+                                <div class="container-fluid">
+                                    <p style="text-align: justify;">El IMC es una referencia para determinar si una persona está en su peso saludable o si tiene <!--
+                                    -->algún grado de falta o exceso de peso. Se calcula dividiendo el peso en Kg entre el cuadrado de la estatura en metros.</p>
+                                    <p style="text-align: justify;">El IMC tiene la limitante que al no diferenciar entre el peso muscular y el peso graso,
+                                        arroja puntuaciones inexactas para personas con mucha masa muscular, atletas y mujeres embarazadas, por lo que debe
+                                        ser usado con cautela.</p>
+                                    <p style="text-align: justify;">La tabla a continuación es una clasificación de la <abbr title="Organización Mundial de la Salud">OMS</abbr>
+                                        del grado de sobrepeso de acuerdo al IMC.</p>
+                                </div>
+
+                                <div class="container-fluid">
+                                    <div class="table-responsive">
+                                        <table class="table table-condensed table-hover">
+                                            <thead>
+                                                <tr>
+                                                    <th style="text-align: center;">Grado de Peso</th>
+                                                    <th style="text-align: center;">Sobrepeso [Kg]</th>
+                                                    <th style="text-align: center;">IMC</th>
+                                                    <th style="text-align: center;">Complicaciones</th>
+                                                    <th style="text-align: center;">Impacto Psicológico</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr class="success">
+                                                    <td style="vertical-align: middle;">Normal</td>
+                                                    <td style="vertical-align: middle; text-align: center;"></td>
+                                                    <td style="vertical-align: middle; text-align: center;">18.5~23</td>
+                                                    <td style="vertical-align: middle;">Ninguna.</td>
+                                                    <td style="vertical-align: middle;">Ninguno.</td>
+                                                </tr>
+                                                <tr class="success">
+                                                    <td style="vertical-align: middle;">Sobrepeso estético</td>
+                                                    <td style="vertical-align: middle; text-align: center;">1~5</td>
+                                                    <td style="vertical-align: middle; text-align: center;">23~25</td>
+                                                    <td style="vertical-align: middle;">Ninguna.</td>
+                                                    <td style="vertical-align: middle;">Según autovaloración.</td>
+                                                </tr>
+                                                <tr class="warning">
+                                                    <td style="vertical-align: middle;">Obesidad I (Preobesidad)</td>
+                                                    <td style="vertical-align: middle; text-align: center;">5~15</td>
+                                                    <td style="vertical-align: middle; text-align: center;">25~30</td>
+                                                    <td style="vertical-align: middle;">Pocas compliaciones de tipo social y estrés.</td>
+                                                    <td style="vertical-align: middle;">Según autovaloración.</td>
+                                                </tr>
+                                                <tr class="danger">
+                                                    <td style="vertical-align: middle;">Obesidad II (Moderada)</td>
+                                                    <td style="vertical-align: middle; text-align: center;">15~35</td>
+                                                    <td style="vertical-align: middle; text-align: center;">30~35</td>
+                                                    <td style="vertical-align: middle;">Riesgo de diabetes, colesterol, hipertensión, várices, gota.</td>
+                                                    <td style="vertical-align: middle;">Bajo autoestima, enojo, frustración.</td>
+                                                </tr>
+                                                <tr class="danger">
+                                                    <td style="vertical-align: middle;">Obesidad III (Severa)</td>
+                                                    <td style="vertical-align: middle; text-align: center;">35~50</td>
+                                                    <td style="vertical-align: middle; text-align: center;">35~40</td>
+                                                    <td style="vertical-align: middle;">Apnea de sueño, artrosis, hígado graso.</td>
+                                                    <td style="vertical-align: middle;">Depresión, miedos, agresividad, sentimientos de inferioridad.</td>
+                                                </tr>
+                                                <tr class="danger">
+                                                    <td style="vertical-align: middle;">Obesidad IV (Mórbida)</td>
+                                                    <td style="vertical-align: middle; text-align: center;">50~80</td>
+                                                    <td style="vertical-align: middle; text-align: center;">40~50</td>
+                                                    <td style="vertical-align: middle;">Falta de aire, tromboflebitis, erisipela.</td>
+                                                    <td style="vertical-align: middle;">Depresión, miedos, agresividad, sentimientos de inferioridad.</td>
+                                                </tr>
+                                                <tr class="danger">
+                                                    <td style="vertical-align: middle;">Obesidad V</td>
+                                                    <td style="vertical-align: middle; text-align: center;">80~100</td>
+                                                    <td style="vertical-align: middle; text-align: center;">50~65</td>
+                                                    <td style="vertical-align: middle;">Discapacidad mediana, problemas cardiacos, hemorroides, dolores de columna y piernas.</td>
+                                                    <td style="vertical-align: middle;">Depresión intensa, confusión, frustración progresiva, ideas de muerte, hostilidad.</td>
+                                                </tr>
+                                                <tr class="danger">
+                                                    <td style="vertical-align: middle;">Obesidad VI</td>
+                                                    <td style="vertical-align: middle; text-align: center;">100~150</td>
+                                                    <td style="vertical-align: middle; text-align: center;">65~80</td>
+                                                    <td style="vertical-align: middle;">Discapacidad severa, micosis.</td>
+                                                    <td style="vertical-align: middle;">Depresión intensa, confusión, frustración progresiva, ideas de muerte, hostilidad.</td>
+                                                </tr>
+                                                <tr class="danger">
+                                                    <td style="vertical-align: middle;">Obesidad VII</td>
+                                                    <td style="vertical-align: middle; text-align: center;">150~200</td>
+                                                    <td style="vertical-align: middle; text-align: center;">80~100</td>
+                                                    <td style="vertical-align: middle;">Incapacidad, úlceras en piernas, escaras.</td>
+                                                    <td style="vertical-align: middle;">Depresión intensa, confusión, frustración progresiva, ideas de muerte, hostilidad.</td>
+                                                </tr>
+                                                <tr class="danger">
+                                                    <td style="vertical-align: middle;">Obesidad VIII</td>
+                                                    <td style="vertical-align: middle; text-align: center;">+200</td>
+                                                    <td style="vertical-align: middle; text-align: center;">+100</td>
+                                                    <td style="vertical-align: middle;">Postración, deterioro de funciones vitales.</td>
+                                                    <td style="vertical-align: middle;">Depresión intensa, confusión, frustración progresiva, ideas de muerte, hostilidad.</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-success" data-dismiss="modal">Cerrar</button>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <!-- Modal ICC Info -->
+                <div id="icc_info" class="modal fade">
+                    <div class="modal-dialog">
+
+                        <!-- Modal content-->
+                        <div class="modal-content">
+
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                <h4 class="modal-title" style="font-family: 'Old Standard TT', serif; text-align: center;">Índice Cintura Cadera (ICC)</h4>
+                            </div>
+
+                            <div class="modal-body">
+                                <div class="container-fluid">
+                                    <p style="text-align: justify;">El ICC es una medida antropométrica para medir los
+                                        niveles de grasa intra-abdominal, se obtiene al dividir el perímetro
+                                        de la cintura entre el perímetro de la cadera.</p>
+                                    <p style="text-align: justify;">El ICC se asocia a un <b>riesgo cardiovascular</b>
+                                        aumentado y a un incremento de la probabilidad de contraer enfermedades como
+                                        Diabetes e Hipertensión.</p>
+                                    <p style="text-align: justify;">La tabla a continuación muestra el riesgo cardiovascular
+                                        asociado para hombres y mujeres dependiendo de su rango de ICC.</p>
+                                </div>
+
+                                <div class="container-fluid">
+                                    <div class="table-responsive">
+                                        <table class="table table-condensed table-hover">
+                                            <thead>
+                                                <tr>
+                                                    <th style="text-align: center;">Hombres</th>
+                                                    <th style="text-align: center;">Mujeres</th>
+                                                    <th style="text-align: center;">Riesgo</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr class="success">
+                                                    <td style="vertical-align: middle; text-align: center;">- 0.95</td>
+                                                    <td style="vertical-align: middle; text-align: center;">- 0.8</td>
+                                                    <td style="vertical-align: middle; text-align: center;">Muy bajo</td>
+                                                </tr>
+                                                <tr class="warning">
+                                                    <td style="vertical-align: middle; text-align: center;">0.95 ~ 1</td>
+                                                    <td style="vertical-align: middle; text-align: center;">0.8 ~ 0.85</td>
+                                                    <td style="vertical-align: middle; text-align: center;">Bajo</td>
+                                                </tr>
+                                                <tr class="danger">
+                                                    <td style="vertical-align: middle; text-align: center;">+ 1</td>
+                                                    <td style="vertical-align: middle; text-align: center;">+ 0.85</td>
+                                                    <td style="vertical-align: middle; text-align: center;">Alto</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-success" data-dismiss="modal">Cerrar</button>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="tab-pane fade" id="peso">
+
+                <h1 style="font-family: 'Old Standard TT', serif; text-align: center;">Curva de Peso</h1>
+                {% if d_peso.1.0 == "Sin datos" and not control %}
+                    <div class="container-fluid">
+                        <div class="alert alert-info fade in">
+                            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                            <p style="text-align: center;"><strong>Aún no has cargado ningún registro a tu curva de peso, porfavor carga datos usando el formulario más abajo!</strong></p>
+                        </div>
+                    </div>
+                {% endif %}
+                <div id="div_peso" class="container" style="width: 100%; height: 400px;"></div>
+
+                {% if not control %}
+                    <div class="container-fluid">
+                        <div class="col-xs-12 well">
+                            {% crispy forma_peso %}
+                        </div>
+                    </div>
+
+                    <div class="container-fluid">
+                        <div class="alert alert-warning fade in">
+                            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                            <strong>Nota: </strong>Para eliminar el registro de alguna fecha específica anote en esa fecha un peso de 0 Kg.
+                        </div>
+                    </div>
+                {% endif %}
+
+            </div>
+
+            <div class="tab-pane fade" id="perimetro">
+
+                <h1 style="font-family: 'Old Standard TT', serif; text-align: center;">Perímetro de Cintura y Cadera</h1>
+                {% if d_perimetro.1.0 == "Sin datos"  and not control %}
+                    <div class="container-fluid">
+                        <div class="alert alert-info fade in">
+                            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                            <p  style="text-align: center;"><strong>Aún no has cargado ningún registro a tu curva de perímetro de cintura y cadera, porfavor carga datos usando el formulario más abajo!</strong></p>
+                        </div>
+                    </div>
+                {% endif %}
+                <div id="div_perimetro" class="container" style="width: 100%; height: 400px;"></div>
+
+                {% if not control %}
+                    <div class="container-fluid">
+                        <div class="col-xs-12 well">
+                            {% crispy forma_perimetro %}
+                        </div>
+                    </div>
+
+                    <div class="container-fluid">
+                        <div class="alert alert-warning fade in">
+                            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                            <strong>Nota: </strong>Para eliminar el registro de alguna fecha específica anote en esa fecha 0 cm.
+                        </div>
+                    </div>
+                {% endif %}
+
+            </div>
+
+        </div>
+    </div>
+
+</body>
+</html>

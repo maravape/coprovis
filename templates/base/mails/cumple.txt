@@ -1,0 +1,7 @@
+¡Feliz cumpleaños!
+
+{{ nombre }}, muchas felicidades de parte de todo el equipo Coprovis.
+
+Te deseamos muchos éxitos en todas tus metas y muchos años por delante con mucha salud.
+
+Equipo Coprovis.
